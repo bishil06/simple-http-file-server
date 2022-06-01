@@ -18,13 +18,23 @@ const httpRequestOptions = {
   }
 }
 
-const req = request(httpRequestOptions, (res) => {
-  console.log(`Server response: ${res.statusCode}`)
-})
-
-createReadStream(filename)
-  .pipe(createGzip())
-  .pipe(req)
-  .on('finish', () => {
-    console.log('File successfully sent')
+function sendFile(fileName, httpOptions) {
+  const req = request(httpOptions, (res) => {
+    console.log(`Server response: ${res.statusCode}`)
   })
+
+  return new Promise((resolve, reject) => {
+    createReadStream(fileName)
+      .pipe(createGzip())
+      .pipe(req)
+      .on('finish', () => {
+        console.log(`${fileName} File successfully sent`)
+        resolve()
+      })
+      .on('error', err => {
+        reject(err)
+      })
+  })
+}
+
+await sendFile(filename, httpRequestOptions)
