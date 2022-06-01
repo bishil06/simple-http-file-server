@@ -13,7 +13,7 @@ simple http file server
 ## Server
 
 ```shell
-node index.mjs
+node index.mjs [destPath]
 ```
 
 서버가 실행되면 받은 파일을 저장할 received_files 을 생성하고 요청을 기다립니다
