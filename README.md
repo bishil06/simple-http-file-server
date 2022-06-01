@@ -21,7 +21,7 @@ node index.mjs
 ## Client
 
 ```shell
-node index.mjs <fileName> <serverAddress>
+node index.mjs <fileName or DirectoryName> <serverAddress>
 ```
 
 클라이언트가 실행되면 서버로 파일을 업로드 합니다
