@@ -1,11 +1,14 @@
 import { createServer } from 'http'
 import { createWriteStream, mkdirSync } from 'fs'
 import { createGunzip } from 'zlib'
-import { basename, join } from 'path'
+import { basename, join, normalize } from 'path'
 
 import createSecondName from './createSecondName.mjs'
 
-mkdirSync('received_files')
+const inputPath = normalize(process.argv[2] || '')
+const destPath = join(inputPath, 'received_files')
+
+mkdirSync(destPath)
 
 const fileNames = new Set()
 
@@ -23,7 +26,7 @@ const server = createServer((req, res) => {
     }
   }
 
-  const destFilename = join('received_files', fileName)
+  const destFilename = join(destPath, fileName)
   console.log(`File request received: ${fileName}`)
 
   req
