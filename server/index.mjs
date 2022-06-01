@@ -37,6 +37,9 @@ const server = createServer((req, res) => {
       res.end('OK\n')
       console.log(`File saved: ${destFilename}`)
     })
+    .on('error', err => {
+      console.error(err)
+    })
 })
 
 server.listen(8080, () => console.log('Listening on http://localhost:8080'))

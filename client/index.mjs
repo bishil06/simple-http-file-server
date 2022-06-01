@@ -41,7 +41,7 @@ if (lstatSync(filename).isDirectory()) {
       }
     }
 
-    await sendFile(p, httpRequestOptions)
+    await sendFile(p, httpRequestOptions).catch(console.error)
   }
 }
 else {
@@ -57,7 +57,7 @@ else {
     }
   }
 
-  await sendFile(filename, httpRequestOptions)
+  await sendFile(filename, httpRequestOptions).catch(console.error)
 }
 
 
