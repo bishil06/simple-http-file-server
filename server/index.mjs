@@ -3,12 +3,28 @@ import { createWriteStream, mkdirSync } from 'fs'
 import { createGunzip } from 'zlib'
 import { basename, join } from 'path'
 
+import createSecondName from './createSecondName.mjs'
+
 mkdirSync('received_files')
 
+const fileNames = new Set()
+
 const server = createServer((req, res) => {
-  const filename = basename(req.headers['x-filename'])
-  const destFilename = join('received_files', filename)
-  console.log(`File request received: ${filename}`)
+  console.log(fileNames)
+  let fileName = basename(req.headers['x-filename'])
+
+  while (true) {
+    if (fileNames.has(fileName)) {
+      fileName = createSecondName(fileName)
+    }
+    else {
+      fileNames.add(fileName)
+      break
+    }
+  }
+
+  const destFilename = join('received_files', fileName)
+  console.log(`File request received: ${fileName}`)
 
   req
     .pipe(createGunzip())
